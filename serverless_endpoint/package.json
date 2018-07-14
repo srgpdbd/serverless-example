@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "aws-amplify": "^0.4.8",
+    "axios": "^0.18.0"
+  }
+}

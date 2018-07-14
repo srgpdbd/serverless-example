@@ -1,0 +1,29 @@
+service: aws-python-simple-http-endpoint
+
+provider:
+  name: aws
+  runtime: python3.6
+
+functions:
+  currentTime:
+    handler: handler.endpoint
+    events:
+      - http:
+          path: ping/{return_this}/detail
+          method: GET
+          cors: true            # <- эта хуйня сломает тебя
+          integration: lambda   # тип интеграции, хз для чего пока, но нужен для когнито
+          request:
+            parameters:
+              paths:
+                return_this: true # если true, то параметр обязательный
+              # есть ещё
+              # querystrings:
+                # url: true
+              # headers:
+                # foo: false
+          authorizer:            # настройки когнито
+            name: authorizer
+            arn: arn:aws:cognito-idp:us-east-1:007372064135:userpool/us-east-1_gYpjG8UAf
+            claims:
+                - email
